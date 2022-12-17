@@ -9,8 +9,10 @@ import {
     Grid,
     InputLabel,
     MenuItem,
+    Pagination,
     Rating,
     Select,
+    Stack,
     TextField,
     Typography,
     useTheme,
@@ -28,10 +30,15 @@ const Home = () => {
     const theme = useTheme();
     const [selectedCategory, setSelectedCategory] = useState('');
     const [searchTerm, setSearchTerm] = useState('');
+    const [currentPage, setCurrentPage] = useState(1);
     const { data: products, isSuccess } = useGetProductsQuery();
     const dispatch = useDispatch();
 
     const categories = ['electronics', 'jewelery', "men's clothing", "women's clothing"];
+
+    const indexOfLast = currentPage * 8;
+    const indexOfFisrt = indexOfLast - 8;
+    const currentProduct = products ? products.slice(indexOfFisrt, indexOfLast) : products;
 
     const handleCategoryChange = (event) => {
         setSelectedCategory(event.target.value);
@@ -45,10 +52,14 @@ const Home = () => {
         dispatch(addToCart({ product, quantity: 1 }));
     };
 
+    const handlePaginate = (event, value) => {
+        setCurrentPage(value);
+    };
+
     let filterProducts =
         selectedCategory && selectedCategory !== 'all'
-            ? products.filter((product) => product?.category === selectedCategory)
-            : products;
+            ? currentProduct.filter((product) => product?.category === selectedCategory)
+            : currentProduct;
 
     filterProducts = searchTerm
         ? filterProducts.filter((product) => product?.title.toLowerCase().includes(searchTerm.toLowerCase()))
@@ -105,7 +116,7 @@ const Home = () => {
                     {isSuccess &&
                         filterProducts?.map((product) => (
                             <Grid item key={product?._id} xs={12} sm={6} md={3}>
-                                <CardItem>
+                                <CardItem sx={{ justifyContent: 'space-between' }}>
                                     <CardImg
                                         component='img'
                                         image={product?.image}
@@ -141,6 +152,17 @@ const Home = () => {
                             </Grid>
                         ))}
                 </Grid>
+
+                <Stack mt={8} justifyContent='center' alignItems='center'>
+                    <Pagination
+                        color='primary'
+                        count={Math.ceil(products ? products.length / 9 : null)}
+                        size='large'
+                        defaultPage={1}
+                        page={currentPage}
+                        onChange={handlePaginate}
+                    />
+                </Stack>
             </Container>
         </>
     );

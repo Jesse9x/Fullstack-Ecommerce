@@ -238,6 +238,39 @@ const products = [
             count: 145,
         },
     },
+    {
+        title: 'Macbook',
+        price: 20.99,
+        description: 'Macbook is computer the best',
+        category: 'electronics',
+        image: 'https://www.apple.com/v/macbook-pro-14-and-16/c/images/overview/hero/hero_intro_endframe__e6khcva4hkeq_large.jpg',
+        rating: {
+            rate: 3.6,
+            count: 145,
+        },
+    },
+    {
+        title: 'Iphone14 Pro Max',
+        price: 20.99,
+        description: 'A magical way to interact with your iPhone',
+        category: 'electronics',
+        image: 'https://cdn.tgdd.vn/Products/Images/42/251192/s16/iPhone-14-Pro-series-%20(2)-650x650.png',
+        rating: {
+            rate: 3.6,
+            count: 145,
+        },
+    },
+    {
+        title: 'Men Polo Shirt',
+        price: 2.99,
+        description: 'Short-sleeved POLO shirt sports trend line, using solid color design, simple and fashionable.',
+        category: "men's clothing",
+        image: 'https://cdn.vuahanghieu.com/unsafe/0x500/left/top/smart/filters:quality(90)/https://admin.vuahanghieu.com/upload/product/2022/06/ao-polo-adidas-pique-hai-mau-mau-xam-size-l-62a850e6457a4-14062022161206.jpg',
+        rating: {
+            rate: 3.6,
+            count: 145,
+        },
+    },
 ];
 
 export default products;
