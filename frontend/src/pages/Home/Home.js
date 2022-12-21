@@ -19,7 +19,7 @@ import {
 } from '@mui/material';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import { useDispatch } from 'react-redux';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { useGetProductsQuery } from '../../redux/services/apiSlice';
 import { CardDesc, CardImg, CardItem, CardTitle } from './Home.Styled';
@@ -33,6 +33,7 @@ const Home = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const { data: products, isSuccess } = useGetProductsQuery();
     const dispatch = useDispatch();
+    const [filterProducts, setFilterProducts] = useState(products ? products : []);
 
     const categories = ['electronics', 'jewelery', "men's clothing", "women's clothing"];
 
@@ -56,14 +57,30 @@ const Home = () => {
         setCurrentPage(value);
     };
 
-    let filterProducts =
-        selectedCategory && selectedCategory !== 'all'
-            ? currentProduct.filter((product) => product?.category === selectedCategory)
-            : currentProduct;
+    useEffect(() => {
+        const handleFilterCategory = () => {
+            const filterCategory =
+                selectedCategory && selectedCategory !== 'all'
+                    ? currentProduct.filter((product) => product?.category === selectedCategory)
+                    : currentProduct;
 
-    filterProducts = searchTerm
-        ? filterProducts.filter((product) => product?.title.toLowerCase().includes(searchTerm.toLowerCase()))
-        : filterProducts;
+            setFilterProducts(filterCategory);
+        };
+
+        handleFilterCategory();
+    }, [currentProduct, selectedCategory]);
+
+    useEffect(() => {
+        const handleFilterProduct = () => {
+            const filterProduct = searchTerm
+                ? filterProducts.filter((product) => product?.title.toLowerCase().includes(searchTerm.toLowerCase()))
+                : filterProducts;
+
+            setFilterProducts(filterProduct);
+        };
+
+        handleFilterProduct();
+    }, [filterProducts, searchTerm]);
 
     return (
         <>
