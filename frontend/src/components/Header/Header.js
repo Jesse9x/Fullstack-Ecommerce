@@ -1,6 +1,7 @@
 import {
     AppBar,
     Badge,
+    Box,
     Button,
     Container,
     IconButton,
@@ -28,6 +29,7 @@ const Header = () => {
     const navigate = useNavigate();
     const [user] = useAuthState(auth);
     const [anchorEl, setAnchorEl] = useState(null);
+    const pages = ['Introduce'];
     const isMenuOpen = Boolean(anchorEl);
     const matches = useMediaQuery(theme.breakpoints.down('sm'));
 
@@ -97,6 +99,14 @@ const Header = () => {
                                 </Link>
                             </>
                         )}
+
+                        <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, ml: 10 }}>
+                            {pages.map((page) => (
+                                <Link to={page} key={page}>
+                                    <Button sx={{ my: 2, color: 'white', display: 'block', ml: 5 }}>{page}</Button>
+                                </Link>
+                            ))}
+                        </Box>
 
                         <IconButton
                             color='inherit'

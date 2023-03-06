@@ -20,6 +20,8 @@ import {
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import { useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
+import KeyboardDoubleArrowUpIcon from '@mui/icons-material/KeyboardDoubleArrowUp';
+import KeyboardDoubleArrowDownIcon from '@mui/icons-material/KeyboardDoubleArrowDown';
 
 import { useGetProductsQuery } from '../../redux/services/apiSlice';
 import { CardDesc, CardImg, CardItem, CardTitle } from './Home.Styled';
@@ -82,6 +84,26 @@ const Home = () => {
         handleFilterProduct();
     }, [filterProducts, searchTerm]);
 
+    const handleSortLowToHigh = () => {
+        const sortProduct = filterProducts.slice(0);
+
+        sortProduct.sort(function (a, b) {
+            return a.price - b.price;
+        });
+
+        setFilterProducts(sortProduct);
+    };
+
+    const handleSortHighToLow = () => {
+        const sortProduct = filterProducts.slice(0);
+
+        sortProduct.sort(function (a, b) {
+            return b.price - a.price;
+        });
+
+        setFilterProducts(sortProduct);
+    };
+
     return (
         <>
             <Slider />
@@ -129,6 +151,16 @@ const Home = () => {
             </Container>
 
             <Container sx={{ py: 8 }} maxWidth='xl'>
+                <Box sx={{ display: 'flex', mb: 3, justifyContent: 'end' }}>
+                    <Button onClick={handleSortLowToHigh} variant='outlined' sx={{ mr: 2 }}>
+                        <KeyboardDoubleArrowUpIcon /> Price low to high
+                    </Button>
+
+                    <Button onClick={handleSortHighToLow} variant='outlined' sx={{ mr: 2 }}>
+                        <KeyboardDoubleArrowDownIcon /> Price high to low
+                    </Button>
+                </Box>
+
                 <Grid container spacing={4}>
                     {isSuccess &&
                         filterProducts?.map((product) => (
